@@ -1,18 +1,12 @@
+version: '3'
+
 services:
   openvpn-client:
     build: ./build
     container_name: openvpn-client
-    stdin_open: true
-    tty: true
     cap_add:
       - NET_ADMIN
     privileged: true
-    # devices:
-    #   - /dev/net/tun:/dev/net/tun
-    # environment:
-    #   - ALLOWED_SUBNETS=0.0.0.0/0
-    #   - AUTH_SECRET=/config/cred.txt
-    #   - CONFIG_FILE=config.ovpn
     volumes:
       - /var/run/dbus/:/var/run/dbus/
     restart: unless-stopped
