@@ -1,12 +1,24 @@
-version: '3'
-
 services:
   openvpn-client:
     build: ./build
     container_name: openvpn-client
     cap_add:
       - NET_ADMIN
-    privileged: true
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - ALLOWED_SUBNETS=0.0.0.0/0
+      - AUTH_SECRET=/config/cred.txt
+      - CONFIG_FILE=/config/config.ovpn
     volumes:
-      - /var/run/dbus/:/var/run/dbus/
+      - ./config:/config
     restart: unless-stopped
+
+  netshoot:
+    image: nicolaka/netshoot:latest
+    container_name: netshoot
+    restart: unless-stopped
+    network_mode: service:openvpn-client
+    entrypoint: ["sleep", "infinity"]
+    depends_on:
+      - openvpn-client
