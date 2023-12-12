@@ -14,6 +14,5 @@ services:
     #   - AUTH_SECRET=/config/cred.txt
     #   - CONFIG_FILE=config.ovpn
     volumes:
-      - ./config:/etc/openvpn3/autoload
       - /var/run/dbus/:/var/run/dbus/
     restart: unless-stopped
