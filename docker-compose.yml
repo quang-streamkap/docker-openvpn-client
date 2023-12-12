@@ -1,13 +1,19 @@
 services:
   openvpn-client:
-    image: ghcr.io/wfg/openvpn-client:latest
+    build: ./build
     container_name: openvpn-client
+    stdin_open: true
+    tty: true
     cap_add:
       - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    environment:
-      - ALLOWED_SUBNETS=192.168.10.0/24
+    privileged: true
+    # devices:
+    #   - /dev/net/tun:/dev/net/tun
+    # environment:
+    #   - ALLOWED_SUBNETS=0.0.0.0/0
+    #   - AUTH_SECRET=/config/cred.txt
+    #   - CONFIG_FILE=config.ovpn
     volumes:
-      - ./local:/config
+      - ./config:/etc/openvpn3/autoload
+      - /var/run/dbus/:/var/run/dbus/
     restart: unless-stopped

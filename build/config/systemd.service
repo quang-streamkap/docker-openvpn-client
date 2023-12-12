@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenVPN 3 Linux configuration auto loader and starter
+After=network.target dbus.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/sbin/openvpn3-autoload --directory /etc/openvpn3/autoload
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
